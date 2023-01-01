@@ -1,43 +1,49 @@
-use blstrs::G1Affine;
-use blstrs::Scalar;
-use blstrs::G1Projective;
-use rand::thread_rng;
-use group::Group;
+use blstrs::{G1Affine, G1Projective, Scalar};
 use ff::Field;
-use std::mem::size_of;
-use std::time::{Duration, Instant};
+use group::Group;
+use rand::{thread_rng, Fill, Rng};
 use rayon::prelude::*;
-use rand::Fill;
-use rand::Rng;
+use std::{
+    mem::size_of,
+    time::{Duration, Instant},
+};
 
 pub fn rand_vec_g1(size: usize) -> Vec<G1Projective> {
     let now = Instant::now();
-    println!("Memory allocation ({} GB)", (size * size_of::<G1Projective>() ) as f64 / 1.0e9 );
+    println!(
+        "Memory allocation ({} GB)",
+        (size * size_of::<G1Projective>()) as f64 / 1.0e9
+    );
     let mut result = vec![G1Projective::generator(); size];
     println!("Randomizing...");
-    result
-        .par_chunks_mut(1000)
-        .for_each_init(|| thread_rng(), |rng, chunk| {
+    result.par_chunks_mut(1000).for_each_init(
+        || thread_rng(),
+        |rng, chunk| {
             for point in chunk {
                 *point = G1Projective::random(&mut *rng);
             }
-        });
+        },
+    );
     println!("Random generation took: {:?}", now.elapsed());
     result
 }
 
 pub fn rand_vec_scalar(size: usize) -> Vec<Scalar> {
     let now = Instant::now();
-    println!("Memory allocation ({} GB)", (size * size_of::<Scalar>() ) as f64 / 1.0e9 );
+    println!(
+        "Memory allocation ({} GB)",
+        (size * size_of::<Scalar>()) as f64 / 1.0e9
+    );
     let mut result = vec![Scalar::zero(); size];
     println!("Randomizing...");
-    result
-        .par_chunks_mut(1024)
-        .for_each_init(|| thread_rng(), |rng, chunk| {
+    result.par_chunks_mut(1024).for_each_init(
+        || thread_rng(),
+        |rng, chunk| {
             for point in chunk {
                 *point = Scalar::random(&mut *rng);
             }
-        });
+        },
+    );
     println!("Random generation took: {:?}", now.elapsed());
     result
 }
@@ -71,7 +77,6 @@ fn main() {
     println!("size,duration,throughput");
 
     for i in 10..=MAX_EXPONENT {
-
         let size = 1_usize << i;
         let duration = bench_g1_multi_exp(&points[..size], &scalars[..size]);
         let throughput = size as f64 / duration;

@@ -20,4 +20,7 @@ So they can go up to 2^32 and 2^28 respectively before you run out of (power-of-
 
 
 BLST on hpc6a can go up to 2^30 before running out of memory.
+BLST on m1-max can go up to 2^28 before running out of memory.
+
+Plonky2 on m1-max can go to 2^28 before running out of memory. (Surprising)
 

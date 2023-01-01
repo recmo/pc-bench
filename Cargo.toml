@@ -11,7 +11,8 @@ ff = "0.12.1"
 group = { version = "0.12.1", features = ["rand"] }
 rand = "0.8.5"
 rayon = "1.6.1"
-
+plonky2=  { git = "https://github.com/mir-protocol/plonky2.git" }
+log = "0.4.17"
 
 [profile.release]
 debug = true
