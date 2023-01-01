@@ -2,8 +2,9 @@ use log::Level;
 use plonky2::{
     field::{goldilocks_field::GoldilocksField as F, polynomial::PolynomialValues, types::Sample},
     fri::oracle::PolynomialBatch,
-    plonk::config::{PoseidonGoldilocksConfig, KeccakGoldilocksConfig},
+    plonk::config::{KeccakGoldilocksConfig, PoseidonGoldilocksConfig},
     util::timing::TimingTree,
+    field::fft::fft_root_table,
 };
 use rand::{thread_rng, Fill, Rng};
 use rayon::prelude::*;
@@ -46,6 +47,8 @@ fn bench(input: &[F]) -> f64 {
 
     let mut timing = TimingTree::new("bench", Level::Debug);
 
+    let root_table = fft_root_table(input.len() << RATE_BITS);
+
     // Plonky2 takes care of parallelization.
     loop {
         count += 1;
@@ -58,7 +61,7 @@ fn bench(input: &[F]) -> f64 {
             false,
             0,
             &mut timing,
-            None,
+            Some(&root_table),
         );
 
         duration += now.elapsed().as_secs_f64();
