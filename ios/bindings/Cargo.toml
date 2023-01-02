@@ -8,3 +8,11 @@ crate-type = ["lib", "staticlib"]
 
 [dependencies]
 pc-bench = { path = "../.." }
+
+[profile.release]
+debug = true
+lto = true
+codegen-units = 1
+opt-level = 3
+panic = "abort"
+overflow-checks = false

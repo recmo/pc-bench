@@ -65,7 +65,7 @@ fn bench_g1_multi_exp(points: &[G1Projective], scalars: &[Scalar]) -> f64 {
 }
 
 pub fn run() {
-    const MAX_EXPONENT: u32 = 15;
+    const MAX_EXPONENT: u32 = 23;
     const MAX_SIZE: usize = 1 << MAX_EXPONENT;
     const DIVISIONS: usize = 8;
 
