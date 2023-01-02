@@ -1,9 +1,7 @@
-use halo2_proofs::{
-    arithmetic::{best_multiexp, Field},
-    pasta::{
-        group::{Curve, Group},
-        pallas::{Affine, Point, Scalar},
-    },
+use halo2_pse::arithmetic::{best_multiexp, Field};
+use halo2curves::{
+    bn256::{Fr as Scalar, G1Affine as Affine, G1 as Point},
+    group::{Curve, Group},
 };
 use rand::{seq::SliceRandom, thread_rng};
 use rayon::prelude::*;

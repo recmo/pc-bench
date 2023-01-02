@@ -13,9 +13,9 @@
 I'm aiming for settings that maximize prover performance. I am also not interested in zero-knowledge, as that can be achieved more efficiently in later layers of recursion.
 
 * `blst`: Compute an MSM of scalars and BLS12-381 𝔾₁ points.
-* `plonky2-keccak`: Compute a Keccak Merkle tree of a rate 2 low degree expansion over Goldilocks.
+* `plonky2-keccak`: Compute a Keccak Merkle tree of a low degree expansion over Goldilocks. The rate is set to 2 and the FFT root table is pre-computed.
 * `plonky2-poseidon`: Same, but using Goldilocks-Poseidon hash function.
-* `halo2`: Compute and MSM of scalars and Pallas points.
+* `halo2`: Compute the MSM of scalars and Pallas points.
 
 **To do.**
 

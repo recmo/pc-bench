@@ -1,10 +1,12 @@
 use log::Level;
 use plonky2::{
-    field::{goldilocks_field::GoldilocksField as F, polynomial::PolynomialValues, types::Sample},
+    field::{
+        fft::fft_root_table, goldilocks_field::GoldilocksField as F, polynomial::PolynomialValues,
+        types::Sample,
+    },
     fri::oracle::PolynomialBatch,
     plonk::config::{KeccakGoldilocksConfig, PoseidonGoldilocksConfig},
     util::timing::TimingTree,
-    field::fft::fft_root_table,
 };
 use rand::{thread_rng, Fill, Rng};
 use rayon::prelude::*;

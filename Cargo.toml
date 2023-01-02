@@ -6,15 +6,25 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+rand = "0.8.5"
+rayon = "1.6.1"
+
+# BLST
 blstrs = "0.6.1"
 ff = "0.12.1"
 group = { version = "0.12.1", features = ["rand"] }
-rand = "0.8.5"
-rayon = "1.6.1"
-plonky2=  { git = "https://github.com/mir-protocol/plonky2.git" }
+
+# Plonky2
+plonky2 = { git = "https://github.com/mir-protocol/plonky2.git" }
 log = "0.4.17"
-halo2 = "0.0.0"
+
+# Halo2
 halo2_proofs = "0.2.0"
+
+# PSE
+halo2curves = { git = "https://github.com/privacy-scaling-explorations/halo2curves.git", version = "0.3.1" }
+halo2_pse = { package= "halo2_proofs",  git = "https://github.com/privacy-scaling-explorations/halo2", version = "0.2.0" }
+
 
 [profile.release]
 debug = true
