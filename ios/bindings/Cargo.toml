@@ -6,5 +6,5 @@ edition = "2021"
 [lib]
 crate-type = ["lib", "staticlib"]
 
-
 [dependencies]
+pc-bench = { path = "../.." }

@@ -1,5 +1,8 @@
+use pc_bench;
 
 #[no_mangle]
 pub extern "C" fn run() {
-    println!("Hello from Rust!");
+    pc_bench::halo2::run();
+    println!("Done!");
 }
+

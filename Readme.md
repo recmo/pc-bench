@@ -38,6 +38,11 @@ This is surprising because the input data is far short of filling the memory.
 Gnark on hpc6a can go to 2^30 before running out of memory.
 
 
+| Algo | a14 | m1-max | hpc6a |
+|------|-----|--------|-------|
+| halo2 | 24 | 28 | 31 |
+
+
 p-1 of BLS12-384 factors as
 2^32 * 3 * 11 * 19 * 10177 * 125527 * 859267 * 906349^2 * 2508409 * 2529403 * 52437899 * 254760293^2
 
