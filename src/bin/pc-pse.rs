@@ -93,7 +93,7 @@ fn bench_multi_exp(points: &[Affine], scalars: &[Scalar]) -> f64 {
 }
 
 fn main() {
-    const MAX_EXPONENT: u32 = 31;
+    const MAX_EXPONENT: u32 = 29;
     const MAX_SIZE: usize = 1 << MAX_EXPONENT;
     const DIVISIONS: usize = 8;
 

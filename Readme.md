@@ -16,10 +16,14 @@ I'm aiming for settings that maximize prover performance. I am also not interest
 * `plonky2-keccak`: Compute a Keccak Merkle tree of a low degree expansion over Goldilocks. The rate is set to 2 and the FFT root table is pre-computed.
 * `plonky2-poseidon`: Same, but using Goldilocks-Poseidon hash function.
 * `halo2`: Compute the MSM of scalars and Pallas points.
+* `pse`: Compute MSM of BN254 𝔾₁ points using PSE fork of Halo2.
+* `gnark` Compute MSM of scalars and BN254 𝔾₁ points using the `kzg.Commit` function.
+
+[]: https://github.com/privacy-scaling-explorations/halo2
+
 
 **To do.**
 
-* `pse`: https://github.com/privacy-scaling-explorations/halo2
 
 ## Limits
 
