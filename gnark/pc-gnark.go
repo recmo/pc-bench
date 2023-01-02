@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	const max_exp = 28;
+	const max_exp = 30;
 	const max_size = 1 << max_exp;
 	const divisions = 8;
 

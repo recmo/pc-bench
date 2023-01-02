@@ -35,13 +35,25 @@ Plonky2 on m1-max can go to 2^28 before running out of memory.
 Plonky2 on hpc6a can go to 2^30 before running out of memory.
 This is surprising because the input data is far short of filling the memory.
 
+Gnark on hpc6a can go to 2^30 before running out of memory.
 
- p-1 of BLS12-384 factors as
+
+p-1 of BLS12-384 factors as
 2^32 * 3 * 11 * 19 * 10177 * 125527 * 859267 * 906349^2 * 2508409 * 2529403 * 52437899 * 254760293^2
+
 and BN254 as
 2^28 * 3^2 * 13 * 29 * 983 * 11003 * 237073 * 405928799 * 1670836401704629 * 13818364434197438864469338081
+
+
 Goldilocks as
 2^32 * 3 * 5 * 17 * 257 * 65537
-(edited)
-10:26
-So they can go up to 2^32 and 2^28 respectively before you run out of (power-of-two) roots of unity.
+
+
+Pasta curves (Halo2)
+
+p - 1:
+2^32 × 3 × 463 × 4852402207910482324454106387152561316357015077916052529702775169
+
+q - 1:
+2^32 × 3^2 × 1709 × 24859 × 17627503553531704781201602214972145569028026719617221564519
+

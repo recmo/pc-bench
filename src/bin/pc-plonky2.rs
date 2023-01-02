@@ -15,8 +15,8 @@ use std::{
     time::{Duration, Instant},
 };
 
-// type C = PoseidonGoldilocksConfig;
-type C = KeccakGoldilocksConfig;
+type C = PoseidonGoldilocksConfig;
+// type C = KeccakGoldilocksConfig;
 const D: usize = 2;
 const RATE_BITS: usize = 1;
 
