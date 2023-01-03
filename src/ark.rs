@@ -1,13 +1,12 @@
-use halo2_proofs::{
-    arithmetic::{best_multiexp, Field},
-    pasta::{
-        group::{Curve, Group},
-        pallas::{Affine, Point, Scalar},
-    },
-};
-use rand::{seq::SliceRandom, thread_rng};
+use ark_bn254::{Fr, G1Affine as Affine, G1Projective as Point};
+use ark_ec::{msm::VariableBaseMSM, ProjectiveCurve};
+use ark_ff::BigInteger256;
+use num_traits::Zero;
+use rand::{seq::SliceRandom, thread_rng, Rng};
 use rayon::prelude::*;
 use std::{mem::size_of, time::Instant};
+
+type Scalar = BigInteger256;
 
 pub fn rand_vec_point(size: usize) -> Vec<Affine> {
     const TABLE_SIZE: usize = 1_usize << 18;
@@ -31,13 +30,14 @@ pub fn rand_vec_point(size: usize) -> Vec<Affine> {
     println!("Creating a few real random points...");
     let random = {
         let mut rng = thread_rng();
-        let mut points = vec![Point::default(); TABLE_SIZE];
+        let mut points = vec![Point::prime_subgroup_generator(); TABLE_SIZE];
         for point in points.iter_mut() {
-            *point = Point::random(&mut rng);
+            // Ark-works makes our live very hard.
+            let mut scalar = Scalar::new(rng.gen::<[u64; 4]>());
+            scalar.0[3] &= 0x00ff_ffff_ffff_ffff;
+            *point *= Fr::from(scalar);
         }
-        let mut affine = vec![Affine::default(); TABLE_SIZE];
-        Point::batch_normalize(&points, &mut affine);
-        affine
+        Point::batch_normalization_into_affine(&points)
     };
 
     // Fill the vector with the sum of two random points from the table.
@@ -46,9 +46,12 @@ pub fn rand_vec_point(size: usize) -> Vec<Affine> {
         || (thread_rng(), vec![Point::default(); CHUNK_SIZE]),
         |(rng, buffer), chunk| {
             for point in buffer.iter_mut() {
-                *point = random.choose(rng).unwrap() + random.choose(rng).unwrap();
+                *point = Point::from(*random.choose(rng).unwrap()) + Point::from(*random.choose(rng).unwrap());
             }
-            Point::batch_normalize(&buffer, chunk);
+            Point::batch_normalization(buffer.as_mut_slice());
+            for (point, affine) in buffer.iter().zip(chunk.iter_mut()) {
+                *affine = point.into_affine();
+            }
         },
     );
 
@@ -62,13 +65,13 @@ pub fn rand_vec_scalar(size: usize) -> Vec<Scalar> {
         "Memory allocation ({} GB)",
         (size * size_of::<Scalar>()) as f64 / 1.0e9
     );
-    let mut result = vec![Scalar::zero(); size];
+    let mut result = vec![Scalar::new([0; 4]); size];
     println!("Randomizing...");
     result.par_chunks_mut(1024).for_each_init(
         || thread_rng(),
         |rng, chunk| {
-            for point in chunk {
-                *point = Scalar::random(&mut *rng);
+            for value in chunk {
+                *value = Scalar::new(rng.gen::<[u64; 4]>());
             }
         },
     );
@@ -84,7 +87,7 @@ fn bench_multi_exp(points: &[Affine], scalars: &[Scalar]) -> f64 {
         count += 1;
         let now = Instant::now();
 
-        let _ = best_multiexp(scalars, points);
+        let _ = VariableBaseMSM::multi_scalar_mul(points, scalars);
 
         duration += now.elapsed().as_secs_f64();
         if duration > 5.0 {

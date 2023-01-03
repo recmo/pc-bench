@@ -5,7 +5,7 @@ use plonky2::{
         types::Sample,
     },
     fri::oracle::PolynomialBatch,
-    plonk::config::{KeccakGoldilocksConfig, PoseidonGoldilocksConfig},
+    plonk::config::{GenericConfig, KeccakGoldilocksConfig, PoseidonGoldilocksConfig},
     util::timing::TimingTree,
 };
 use rand::{thread_rng, Fill, Rng};
@@ -16,12 +16,9 @@ use std::{
 };
 
 // type C = PoseidonGoldilocksConfig;
-type C = KeccakGoldilocksConfig;
+// type C = KeccakGoldilocksConfig;
 const D: usize = 2;
 const RATE_BITS: usize = 1;
-
-const MAX_EXPONENT: u32 = 23;
-const MAX_SIZE: usize = 1 << MAX_EXPONENT;
 
 pub fn rand_vec(size: usize) -> Vec<F> {
     let now = Instant::now();
@@ -43,7 +40,7 @@ pub fn rand_vec(size: usize) -> Vec<F> {
     result
 }
 
-fn bench(input: &[F]) -> f64 {
+fn bench<C: GenericConfig<2, F = F>>(input: &[F]) -> f64 {
     let mut count = 0;
     let mut duration = 0.0;
 
@@ -74,15 +71,20 @@ fn bench(input: &[F]) -> f64 {
     duration / count as f64
 }
 
-pub fn run() {
+pub fn run(max_exponent: usize, poseidon: bool) {
+    let max_size = 1 << max_exponent;
     println!("Preparing input...");
-    let input = rand_vec(MAX_SIZE);
+    let input = rand_vec(max_size);
 
     println!("size,duration,throughput");
 
-    for i in 10..=MAX_EXPONENT {
+    for i in 10..=max_exponent {
         let size = 1_usize << i;
-        let duration = bench(&input[..size]);
+        let duration = if poseidon {
+            bench::<PoseidonGoldilocksConfig>(&input[..size])
+        } else {
+            bench::<KeccakGoldilocksConfig>(&input[..size])
+        };
         let throughput = size as f64 / duration;
         println!("{size},{duration},{throughput}");
     }

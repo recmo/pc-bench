@@ -24,6 +24,13 @@ halo2_proofs = "0.2.0"
 # PSE
 halo2curves = { git = "https://github.com/privacy-scaling-explorations/halo2curves.git", version = "0.3.1" }
 halo2_pse = { package= "halo2_proofs",  git = "https://github.com/privacy-scaling-explorations/halo2", version = "0.2.0" }
+clap = { version = "4.0.32", features = ["derive"] }
+
+# Ark-works
+ark-ec = { version = "0.3.0", features = ["parallel"] }
+ark-ff = { version = "0.3.0", features = ["asm", "parallel"] }
+ark-bn254 = "0.3.0"
+num-traits = "0.2.15"
 
 
 [profile.release]

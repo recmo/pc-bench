@@ -64,25 +64,24 @@ fn bench_g1_multi_exp(points: &[G1Projective], scalars: &[Scalar]) -> f64 {
     duration / count as f64
 }
 
-pub fn run() {
-    const MAX_EXPONENT: u32 = 23;
-    const MAX_SIZE: usize = 1 << MAX_EXPONENT;
+pub fn run(max_exponent: usize) {
+    let max_size = 1 << max_exponent;
     const DIVISIONS: usize = 8;
 
     println!("Preparing input points...");
-    let points = rand_vec_g1(MAX_SIZE);
+    let points = rand_vec_g1(max_size);
     println!("Preparing input scalars...");
-    let scalars = rand_vec_scalar(MAX_SIZE);
+    let scalars = rand_vec_scalar(max_size);
 
     println!("size,duration,throughput");
 
-    for i in 10..=MAX_EXPONENT {
+    for i in 10..=max_exponent {
         let size = 1_usize << i;
         let duration = bench_g1_multi_exp(&points[..size], &scalars[..size]);
         let throughput = size as f64 / duration;
         println!("{size},{duration},{throughput}");
 
-        if size >= MAX_SIZE {
+        if size >= max_size {
             break;
         }
         for i in 1..DIVISIONS {
