@@ -46,7 +46,8 @@ pub fn rand_vec_point(size: usize) -> Vec<Affine> {
         || (thread_rng(), vec![Point::default(); CHUNK_SIZE]),
         |(rng, buffer), chunk| {
             for point in buffer.iter_mut() {
-                *point = Point::from(*random.choose(rng).unwrap()) + Point::from(*random.choose(rng).unwrap());
+                *point = Point::from(*random.choose(rng).unwrap())
+                    + Point::from(*random.choose(rng).unwrap());
             }
             Point::batch_normalization(buffer.as_mut_slice());
             for (point, affine) in buffer.iter().zip(chunk.iter_mut()) {

@@ -5,6 +5,7 @@ pub mod blst;
 pub mod halo2;
 pub mod plonky2;
 pub mod pse;
+pub mod winter;
 
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Debug, ValueEnum)]
 pub enum Algorithm {
@@ -14,6 +15,7 @@ pub enum Algorithm {
     Plonky2_Keccak,
     Plonky2_Poseidon,
     Ark,
+    Winter,
 }
 
 pub fn run(algorithm: Algorithm, max_exponent: usize) {
@@ -25,5 +27,6 @@ pub fn run(algorithm: Algorithm, max_exponent: usize) {
         Plonky2_Keccak => plonky2::run(max_exponent, false),
         Plonky2_Poseidon => plonky2::run(max_exponent, true),
         Ark => ark::run(max_exponent),
+        Winter => winter::run(max_exponent),
     }
 }
