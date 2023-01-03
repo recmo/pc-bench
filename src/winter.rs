@@ -7,7 +7,7 @@ use std::{
 use winterfell::{
     crypto::hashers,
     math::{
-        fields::{f128::BaseElement, f64::BaseElement as F},
+        fields::{f128::BaseElement, f62::BaseElement as F},
         FieldElement,
     },
     Air, AirContext, Assertion, ByteWriter, EvaluationFrame, FieldExtension, HashFunction, Matrix,

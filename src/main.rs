@@ -1,5 +1,6 @@
 use clap::Parser;
 use pc_bench::Algorithm;
+use tracing_subscriber::fmt::format::FmtSpan;
 
 /// Simple program to greet a person
 #[derive(Parser, Debug)]
@@ -15,6 +16,12 @@ struct Args {
 }
 
 fn main() {
+    tracing_subscriber::fmt()
+        .with_env_filter(tracing_subscriber::EnvFilter::from_default_env())
+        .compact()
+        .init();
+
     let cli = Args::parse();
+    
     pc_bench::run(cli.algo, cli.max_exponent);
 }
