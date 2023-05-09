@@ -12,7 +12,6 @@
 		40EE7545296374B6002AFD89 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40EE7544296374B6002AFD89 /* Assets.xcassets */; };
 		40EE7548296374B6002AFD89 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40EE7547296374B6002AFD89 /* Preview Assets.xcassets */; };
 		40EE7554296376C5002AFD89 /* libbindings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40EE7553296376C5002AFD89 /* libbindings.a */; };
-		40EE75572963A0EE002AFD89 /* Pc_gnark.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40EE75562963A0EE002AFD89 /* Pc_gnark.xcframework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,7 +23,6 @@
 		40EE7550296375B0002AFD89 /* App-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "App-Bridging-Header.h"; sourceTree = "<group>"; };
 		40EE7553296376C5002AFD89 /* libbindings.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbindings.a; sourceTree = "<group>"; };
 		40EE7555296376CA002AFD89 /* bindings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bindings.h; sourceTree = "<group>"; };
-		40EE75562963A0EE002AFD89 /* Pc_gnark.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = Pc_gnark.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,7 +30,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				40EE75572963A0EE002AFD89 /* Pc_gnark.xcframework in Frameworks */,
 				40EE7554296376C5002AFD89 /* libbindings.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -43,7 +40,6 @@
 		40EE7534296374B5002AFD89 = {
 			isa = PBXGroup;
 			children = (
-				40EE75562963A0EE002AFD89 /* Pc_gnark.xcframework */,
 				40EE754E296374C0002AFD89 /* Bindings */,
 				40EE753F296374B5002AFD89 /* App */,
 				40EE753E296374B5002AFD89 /* Products */,
@@ -171,7 +167,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "$PROJECT_DIR/build.sh\n";
+			shellScript = "bash ${PROJECT_DIR}/bin/compile-library.sh bindings release\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -311,7 +307,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
-				DEVELOPMENT_TEAM = LD6C9WL456;
+				DEVELOPMENT_TEAM = M83UW57364;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -323,10 +319,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Bindings",
-				);
+				"LIBRARY_SEARCH_PATHS[sdk=iphoneos*][arch=arm64]" = "\"$(PROJECT_DIR)/Bindings\"";
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Remco.App;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -347,7 +340,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
-				DEVELOPMENT_TEAM = LD6C9WL456;
+				DEVELOPMENT_TEAM = M83UW57364;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -359,10 +352,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Bindings",
-				);
+				"LIBRARY_SEARCH_PATHS[sdk=iphoneos*][arch=arm64]" = "\"$(PROJECT_DIR)/Bindings\"";
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Remco.App;
 				PRODUCT_NAME = "$(TARGET_NAME)";
