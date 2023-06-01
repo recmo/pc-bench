@@ -906,6 +906,7 @@ dependencies = [
  "ark-ff",
  "blstrs",
  "clap",
+ "eth-stark",
  "ff",
  "group",
  "halo2_proofs 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",

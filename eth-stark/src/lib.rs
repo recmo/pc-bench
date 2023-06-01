@@ -6,6 +6,10 @@ extern "C" {
     fn doTheDooblyDoop(length: usize, blowup: usize);
 }
 
+pub fn run(length: usize, blowup: usize) {
+    unsafe { doTheDooblyDoop(length, blowup); }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
