@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import Pc_gnark
+//import Pc_gnark
 
 struct ContentView: View {
     var body: some View {

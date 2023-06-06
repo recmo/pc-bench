@@ -1,0 +1,4 @@
+[submodule "eth-stark/vendor-eth-stark"]
+	path = eth-stark/vendor-eth-stark
+	url = https://github.com/reilabs/ethSTARK.git
+	branch = wip/macos-compile
