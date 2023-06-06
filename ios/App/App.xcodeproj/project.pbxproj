@@ -102,7 +102,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 40EE754B296374B6002AFD89 /* Build configuration list for PBXNativeTarget "App" */;
 			buildPhases = (
-				40EE754F296374F2002AFD89 /* ShellScript */,
+				40EE754F296374F2002AFD89 /* Run Script */,
 				40EE7539296374B5002AFD89 /* Sources */,
 				40EE753A296374B5002AFD89 /* Frameworks */,
 				40EE753B296374B5002AFD89 /* Resources */,
@@ -163,7 +163,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		40EE754F296374F2002AFD89 /* ShellScript */ = {
+		40EE754F296374F2002AFD89 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -173,6 +173,7 @@
 			);
 			inputPaths = (
 			);
+			name = "Run Script";
 			outputFileListPaths = (
 			);
 			outputPaths = (
