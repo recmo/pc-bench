@@ -8,7 +8,7 @@ fn main() {
 
     eprintln!("current dir {:?}", env::current_dir());
     eprintln!("reading dir {:?}", libdir);
-    println!("cargo:rerun-if-changed=vendor-eth-stark/CMakeLists.txt");
+    println!("cargo:rerun-if-changed=vendor-eth-stark");
 
     // println!("cargo:rerun-if-changed=../../ethSTARK/CMakeLists.txt");
     let contents = std::fs::read_dir(&libdir).unwrap();
