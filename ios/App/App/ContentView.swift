@@ -11,8 +11,7 @@ import Pc_gnark
 struct ContentView: View {
     var body: some View {
         Button(action: {
-            // Pc_gnarkRun()
-            run()
+            Pc_gnarkRunZprize()
         }, label: {
             Text("Run!")
         })

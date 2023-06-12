@@ -11,7 +11,6 @@
 		40EE7543296374B5002AFD89 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40EE7542296374B5002AFD89 /* ContentView.swift */; };
 		40EE7545296374B6002AFD89 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40EE7544296374B6002AFD89 /* Assets.xcassets */; };
 		40EE7548296374B6002AFD89 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 40EE7547296374B6002AFD89 /* Preview Assets.xcassets */; };
-		40EE7554296376C5002AFD89 /* libbindings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40EE7553296376C5002AFD89 /* libbindings.a */; };
 		40EE75572963A0EE002AFD89 /* Pc_gnark.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40EE75562963A0EE002AFD89 /* Pc_gnark.xcframework */; };
 /* End PBXBuildFile section */
 
@@ -21,9 +20,6 @@
 		40EE7542296374B5002AFD89 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		40EE7544296374B6002AFD89 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		40EE7547296374B6002AFD89 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		40EE7550296375B0002AFD89 /* App-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "App-Bridging-Header.h"; sourceTree = "<group>"; };
-		40EE7553296376C5002AFD89 /* libbindings.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbindings.a; sourceTree = "<group>"; };
-		40EE7555296376CA002AFD89 /* bindings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bindings.h; sourceTree = "<group>"; };
 		40EE75562963A0EE002AFD89 /* Pc_gnark.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = Pc_gnark.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -33,7 +29,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				40EE75572963A0EE002AFD89 /* Pc_gnark.xcframework in Frameworks */,
-				40EE7554296376C5002AFD89 /* libbindings.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,7 +39,6 @@
 			isa = PBXGroup;
 			children = (
 				40EE75562963A0EE002AFD89 /* Pc_gnark.xcframework */,
-				40EE754E296374C0002AFD89 /* Bindings */,
 				40EE753F296374B5002AFD89 /* App */,
 				40EE753E296374B5002AFD89 /* Products */,
 			);
@@ -77,16 +71,6 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		40EE754E296374C0002AFD89 /* Bindings */ = {
-			isa = PBXGroup;
-			children = (
-				40EE7555296376CA002AFD89 /* bindings.h */,
-				40EE7553296376C5002AFD89 /* libbindings.a */,
-				40EE7550296375B0002AFD89 /* App-Bridging-Header.h */,
-			);
-			path = Bindings;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -94,7 +78,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 40EE754B296374B6002AFD89 /* Build configuration list for PBXNativeTarget "App" */;
 			buildPhases = (
-				40EE754F296374F2002AFD89 /* ShellScript */,
 				40EE7539296374B5002AFD89 /* Sources */,
 				40EE753A296374B5002AFD89 /* Frameworks */,
 				40EE753B296374B5002AFD89 /* Resources */,
@@ -153,27 +136,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		40EE754F296374F2002AFD89 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "$PROJECT_DIR/build.sh\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		40EE7539296374B5002AFD89 /* Sources */ = {
@@ -311,7 +273,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
-				DEVELOPMENT_TEAM = LD6C9WL456;
+				DEVELOPMENT_TEAM = D34R3FACH7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -323,15 +285,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Bindings",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = Remco.App;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "Bindings/App-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -347,7 +306,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
-				DEVELOPMENT_TEAM = LD6C9WL456;
+				DEVELOPMENT_TEAM = D34R3FACH7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -359,15 +318,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Bindings",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = Remco.App;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "Bindings/App-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

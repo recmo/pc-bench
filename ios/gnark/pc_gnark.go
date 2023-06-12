@@ -7,27 +7,35 @@ package pc_gnark
 
 import (
 	"fmt"
+	bls12377 "github.com/consensys/gnark-crypto/ecc/bls12-377"
 	"math"
 	"math/big"
-	"time"
+	"pc_gnark/zprize"
 	"reflect"
-	
-	"github.com/consensys/gnark-crypto/ecc/bn254/fr/kzg"
-	"github.com/consensys/gnark-crypto/ecc/bn254"
-	"github.com/consensys/gnark-crypto/ecc/bn254/fr"
+	"runtime"
+	"time"
+
+	"github.com/consensys/gnark-crypto/ecc/bls12-377/fr"
+	"github.com/consensys/gnark-crypto/ecc/bls12-377/fr/kzg"
 )
 
-func Run() {
-	const max_exp = 20;
-	const max_size = 1 << max_exp;
-	const divisions = 8;
+func RunZprize() {
+	zprize.RunZprize()
+}
+
+func RunStock() {
+	const max_exp = 16
+	const max_size = 1 << max_exp
+	const divisions = 8
+
+	fmt.Printf("WITHGC / Numcpu: %d\n", runtime.NumCPU())
 
 	// Generate SRS
-    fmt.Printf("Allocating SRS (%f GB).\n",  float64(reflect.TypeOf((*bn254.G1Affine)(nil)).Elem().Size()) * float64(max_size) / 1.0e9 );
+	fmt.Printf("Allocating SRS_12-377 (%f GB).\n", float64(reflect.TypeOf((*bls12377.G1Affine)(nil)).Elem().Size())*float64(max_size)/1.0e9)
 	// srs := kzg.SRS{
 	// 	G1: make([]bn254.G1Affine, max_size),
 	// };
-    // fmt.Printf("Generating random points.\n")
+	// fmt.Printf("Generating random points.\n")
 	// start := time.Now()
 
 	// _, _, gen1Aff, gen2Aff := bn254.Generators()
@@ -43,67 +51,66 @@ func Run() {
 	if err != nil {
 		panic(err)
 	}
-    fmt.Printf("Generating SRS done in %s.\n", time.Now().Sub(start))
+	fmt.Printf("Generating SRS done in %s.\n", time.Now().Sub(start))
 
 	// Create a polynomial
-    fmt.Println("Generating scalars.")
+	fmt.Println("Generating scalars.")
 	start = time.Now()
 	f := make([]fr.Element, max_size)
 	for i := 0; i < max_size; i++ {
 		f[i].SetRandom()
 	}
-    fmt.Printf("Generating scalars done in %s.\n", time.Now().Sub(start))
+	fmt.Printf("Generating scalars done in %s.\n", time.Now().Sub(start))
 
 	fmt.Println("size,duration,throughput")
 
 	// Commit polynomial
 	for i := 10; i <= max_exp; i++ {
-		var size = 1 << i;
+		var size = 1 << i
 
-		var duration = 0.0;
-		var count = 0;
+		var duration = 0.0
+		var count = 0
 
 		for duration < 5.0 {
+			//runtime.GC()
 			start := time.Now()
 			_, err := kzg.Commit(f[0:size], srs)
 			if err != nil {
 				panic(err)
 			}
-			duration += time.Now().Sub(start).Seconds();
-			count += 1;
+			duration += time.Now().Sub(start).Seconds()
+			count += 1
 		}
-		duration /= float64(count);
+		duration /= float64(count)
 
-		throughput := float64(size) / duration;
-		fmt.Printf("%d,%f,%f\n", size, duration, throughput);
+		throughput := float64(size) / duration
+		fmt.Printf("%d,%f,%f\n", size, duration, throughput)
 
-
-		var base_size = size;
-		if i < max_exp  {
+		var base_size = size
+		if i < max_exp {
 			for j := 1; j < divisions; j++ {
-				var size = int( float64(base_size) * math.Pow(2.0, float64(j) / float64(divisions)) );
+				var size = int(float64(base_size) * math.Pow(2.0, float64(j)/float64(divisions)))
 
-				var duration = 0.0;
-				var count = 0;
+				var duration = 0.0
+				var count = 0
 
 				for duration < 5.0 {
+					//runtime.GC()
 					start := time.Now()
 					_, err := kzg.Commit(f[0:size], srs)
 					if err != nil {
 						panic(err)
 					}
-					duration += time.Now().Sub(start).Seconds();
-					count += 1;
+					duration += time.Now().Sub(start).Seconds()
+					count += 1
 				}
-				duration /= float64(count);
+				duration /= float64(count)
 
-				throughput := float64(size) / duration;
-				fmt.Printf("%d,%f,%f\n", size, duration, throughput);
+				throughput := float64(size) / duration
+				fmt.Printf("%d,%f,%f\n", size, duration, throughput)
 
 			}
 		}
 	}
-	fmt.Printf("Done!\n");
+	fmt.Printf("Done!\n")
 }
-
-
