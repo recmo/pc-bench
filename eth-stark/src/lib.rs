@@ -1,28 +1,35 @@
-use std::time::Instant;
+use std::{time::Instant, ffi::c_void};
 
 pub fn add(left: usize, right: usize) -> usize {
     left + right
 }
 
 extern "C" {
-    fn runBenchmark(length: usize, blowup: usize);
+    fn new_input(trace_length: usize) -> *mut c_void;
+    fn free_input(input: *mut c_void);
+    fn runBenchmark(input: *mut c_void, length: usize, blowup: usize);
 }
 
 pub fn bench(size: usize, blowup: usize) -> f64 {
     let mut count = 0;
     let mut duration = 0.0;
 
+    let input = unsafe { new_input(size) };
+
     loop {
         count += 1;
         let now = Instant::now();
 
-        unsafe { runBenchmark(size, blowup); }
+        unsafe { runBenchmark(input, size, blowup) };
 
         duration += now.elapsed().as_secs_f64();
         if duration > 5.0 {
             break;
         }
     }
+
+    unsafe { free_input(input) };
+
     duration / count as f64
 }
 
