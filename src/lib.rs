@@ -20,7 +20,7 @@ pub enum Algorithm {
     Ark,
     Winter,
     Risc0,
-    Stark,
+    EthStark,
 }
 
 pub fn run(algorithm: Algorithm, max_exponent: usize) {
@@ -34,6 +34,6 @@ pub fn run(algorithm: Algorithm, max_exponent: usize) {
         Ark => ark::run(max_exponent),
         Winter => winter::run(max_exponent),
         Risc0 => risc0::run(max_exponent),
-        Stark => eth_stark::run(max_exponent, 4),
+        EthStark => eth_stark::run(max_exponent, 4),
     }
 }
