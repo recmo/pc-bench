@@ -116,7 +116,7 @@ func main() {
 				}
 				duration /= float64(count)
 
-				throughput := float64(size) / duration
+				throughput := float64(size*batchSize) / duration
 				fmt.Printf("%d,%f,%f\n", size, duration, throughput)
 
 			}
