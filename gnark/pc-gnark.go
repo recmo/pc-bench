@@ -67,10 +67,15 @@ func main() {
 	f := make([][]fr.Element, batchSize)
 	for i := 0; i < batchSize; i++ {
 		f[i] = make([]fr.Element, maxSize)
-		for j := 0; j < maxSize; j++ {
-			f[i][j].SetRandom()
-		}
 	}
+	setup := func(inp []fr.Element) (int, error) {
+		for i := 0; i < maxSize; i++ {
+			inp[i].SetRandom()
+		}
+		return 0, nil
+	}
+	parallelize(setup, f)
+	println(f[10][20].String())
 	fmt.Printf("Generating scalars done in %s.\n", time.Now().Sub(start))
 
 	fmt.Println("size,duration,throughput")
