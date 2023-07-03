@@ -10,10 +10,7 @@ use plonky2::{
 };
 use rand::{thread_rng, Fill, Rng};
 use rayon::prelude::*;
-use std::{
-    mem::size_of,
-    time::{Duration, Instant},
-};
+use std::{iter, mem::size_of, time::{Duration, Instant}};
 
 // type C = PoseidonGoldilocksConfig;
 // type C = KeccakGoldilocksConfig;
@@ -40,22 +37,26 @@ pub fn rand_vec(size: usize) -> Vec<F> {
     result
 }
 
-fn bench<C: GenericConfig<2, F = F>>(input: &[F]) -> f64 {
+fn bench<C: GenericConfig<2, F=F>>(input: &[&[F]]) -> f64 {
     let mut count = 0;
     let mut duration = 0.0;
 
     let mut timing = TimingTree::new("bench", Level::Debug);
 
-    let root_table = fft_root_table(input.len() << RATE_BITS);
+    let root_table = fft_root_table(input[0].len() << RATE_BITS);
+    let input = input
+        .iter()
+        .map(|v| PolynomialValues::new(v.to_vec()))
+        .collect::<Vec<_>>();
 
     // Plonky2 takes care of parallelization.
     loop {
         count += 1;
         let now = Instant::now();
 
-        let input = input.to_vec();
+        let input = input.clone();
         let _ = PolynomialBatch::<F, C, D>::from_values(
-            vec![PolynomialValues::new(input)],
+            input,
             RATE_BITS,
             false,
             0,
@@ -71,21 +72,22 @@ fn bench<C: GenericConfig<2, F = F>>(input: &[F]) -> f64 {
     duration / count as f64
 }
 
-pub fn run(max_exponent: usize, poseidon: bool) {
+pub fn run(max_exponent: usize, poseidon: bool, batch_size: usize) {
     let max_size = 1 << max_exponent;
     println!("Preparing input...");
-    let input = rand_vec(max_size);
+    let input = iter::repeat_with(|| rand_vec(max_size)).take(batch_size).collect::<Vec<_>>();
 
     println!("size,duration,throughput");
 
     for i in 10..=max_exponent {
         let size = 1_usize << i;
+        let input = input.iter().map(|v| &v[..size]).collect::<Vec<_>>();
         let duration = if poseidon {
-            bench::<PoseidonGoldilocksConfig>(&input[..size])
+            bench::<PoseidonGoldilocksConfig>(&input)
         } else {
-            bench::<KeccakGoldilocksConfig>(&input[..size])
+            bench::<KeccakGoldilocksConfig>(&input)
         };
-        let throughput = size as f64 / duration;
+        let throughput = (size * batch_size) as f64 / duration;
         println!("{size},{duration},{throughput}");
     }
 }
